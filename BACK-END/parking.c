@@ -1,5 +1,6 @@
 #include <stdio.h>
 void Estacionar(char* matricula,int estacionamento, parking parque[][][]);
+//SUP FELAS
 //OBJETO PARKING QUE VAI SER ARMAZENADO NUM ARRAY TRIDIMENCIONAL
 typedef struct parking
 {
