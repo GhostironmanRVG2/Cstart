@@ -6,7 +6,7 @@ typedef struct parking
 {
  char matricula[8];
 }parking;
-
+//tou aqui
 //FUNCAO ESTACIONAR PARA ESTACIONAR TENDO UMA MATRICULA ,NMR DE ESTACIONAMENTO E O PARQUE
 void Estacionar(char* matricula,int estacionamento, parking parque[][][]){
 //ACIONAR UM METODO CONSOANTE O ESTACIONAMENTO
