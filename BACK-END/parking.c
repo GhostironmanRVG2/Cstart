@@ -1,22 +1,23 @@
 #include <stdio.h>
-void Estacionar(char* matricula,int estacionamento, parking parque[][][]);
-//SUP FELAS
+#include <string.h>
 //OBJETO PARKING QUE VAI SER ARMAZENADO NUM ARRAY TRIDIMENCIONAL
 typedef struct parking
 {
  char matricula[8];
 }parking;
-//tou aqui///
+//DECLARACAO DA FUNCAO COM OS PARAMETROS
+void Estacionar(char matricula[],int estacionamento, struct parking parque[][2][2]);
+
 //FUNCAO ESTACIONAR PARA ESTACIONAR TENDO UMA MATRICULA ,NMR DE ESTACIONAMENTO E O PARQUE
-void Estacionar(char* matricula,int estacionamento, parking parque[][][]){
+void Estacionar(char matricula[],int estacionamento, struct parking parque[][2][2]){
 //ACIONAR UM METODO CONSOANTE O ESTACIONAMENTO
 switch (estacionamento)
 {
 case 1:
-parque[0][0][0]=matricula;    
+strcpy(parque[0][0][0].matricula,matricula);    
 break;
 case 2:
-    
+   
 break;
 
 case 3:
