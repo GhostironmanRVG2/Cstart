@@ -14,6 +14,7 @@ void Estacionar(char matricula[],int estacionamento, struct parking parque[][2][
 switch (estacionamento)
 {
 case 1:
+//CASO SEJA O ESTACIONAMENTO 1 , ARMAZENAR ENTAO NAS COORDENADAS 0 0 0 OS DADOS!
 strcpy(parque[0][0][0].matricula,matricula);    
 break;
 case 2:
