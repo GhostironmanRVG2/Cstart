@@ -20,6 +20,7 @@ typedef struct parking
 //DECLARAR FUNCAO QUE LEVA ARRAY
 void Estacionar(int piso , int linha ,int coluna,char m[],parking parque[][linha][coluna]);
 void Destacionar(int piso , int linha ,int coluna,int count,parking parque[][linha][coluna],parking historico[]);
+float Pagamento(int p, int l, int c, char m[], parking parque[][linha][coluna]);
 
 //DECLARAR O TAMANHO DO ARRAY PARQUE
 void setTamanho(int l,int c){
@@ -82,3 +83,24 @@ void Destacionar(int p , int l ,int c,int count, parking parque[][linha][coluna]
 }
 
 
+//FUNCAO PARA DETERMINAR O PAGAMENTO DO PARQUE
+float Pagamento(struct tm data_chegada , struct tm data_saida){
+    int min, horas, dia, mes, ano;
+    float total;
+    //TOTAL DE HORAS PASSADAS
+    ano = data_saida.tm_year - data_chegada.tm_year + 1900;
+    //TOTAL DE MESES PASSADOS
+    mes = data_saida.tm_mon - data_chegada.tm_year + 1;
+    //TOTAL DE DIAS PASSADOS
+    dia = data_saida.tm_mday - data_chegada.tm_mday;  
+    //TOTAL DE HORAS PASSADOS
+    horas = data_saida.tm_hour - data_chegada.tm_hour;
+    //TOTAL DE MINUTOS PASSADOS
+    min = data_saida.tm_min - data_chegada.tm_min;
+    //DETERMINAMOS O NUMERO TOTAL DE HORAS E MULTIPLACAMOS PELO TOTAL A PAGAR
+    total = (ano * 8760) + (mes * 744) + (dia * 24) + hora + (min / 60);    
+    total = total * 2,50;
+   
+    return total;
+
+}
