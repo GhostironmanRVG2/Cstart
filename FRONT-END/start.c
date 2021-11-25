@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 #include "../BACK-END/parking.c"
 int piso,linha,coluna;
 int historicDynamic=1;
@@ -13,9 +14,11 @@ parking parque[linha][piso][coluna];
 parking historico[historicDynamic];
 
 Estacionar(1,1,1,"PP-OO-PP",parque);
-printf("%d\n",parque[1][1][1].estado);
-Destacionar(1,1,1,historicDynamic,parque,historico);
-printf("%d\n",parque[1][1][1].estado);
+Estacionar(1,1,2,"PP-OO-PP",parque);
+Destacionar(1,1,1,0,parque,historico);
+printf("%f",historico[0].pagamento);
+
+
 
 
 

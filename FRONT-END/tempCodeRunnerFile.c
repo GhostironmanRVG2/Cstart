@@ -1,2 +1,2 @@
-time_t now;
-struct tm *local =localtime(&now);
+
+teste2->tm_year=2021;

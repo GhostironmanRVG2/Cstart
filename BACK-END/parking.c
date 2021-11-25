@@ -8,9 +8,19 @@ typedef struct parking
  //MATRICULA
  char matricula[9];
  //DATA CHEGADA
- struct tm *chegada;
+ int year_chegada;
+ int month_chegada;
+ int day_chegada;
+ int hours_chegada;
+ int minutes_chegada;
+ int secounds_chegada;
  //DATA SAIDA
- struct tm *saida;
+ int year_saida;
+ int month_saida;
+ int day_saida;
+ int hours_saida;
+ int minutes_saida;
+ int secounds_saida;
  //ESTADO 0=destacionado 1=estacionado
  int estado;
  //PAGAMENTO
@@ -20,8 +30,7 @@ typedef struct parking
 //DECLARAR FUNCAO QUE LEVA ARRAY
 void Estacionar(int piso , int linha ,int coluna,char m[],parking parque[][linha][coluna]);
 void Destacionar(int piso , int linha ,int coluna,int count,parking parque[][linha][coluna],parking historico[]);
-float Pagamento(int p, int l, int c, char m[], parking parque[][linha][coluna]);
-
+float Pagamento(int p , int l ,int c,parking parque[][linha][coluna]);
 //DECLARAR O TAMANHO DO ARRAY PARQUE
 void setTamanho(int l,int c){
  linha=l;
@@ -39,19 +48,55 @@ struct tm *local = localtime(&now);
     //PEGAR NA STRING MATRICULA E COLA-LA NA POSICAO INDICADA NO PARAMETRO MATRICULA 
      strcpy(parque[p][l][c].matricula,m);
     //DAY GET
-    parque[p][l][c].chegada->tm_mday=local->tm_mday;
+    parque[p][l][c].day_chegada=local->tm_mday;
     //MOUNTH GET
-    parque[p][l][c].chegada->tm_mon=local->tm_mon+1;
+    parque[p][l][c].month_chegada=local->tm_mon+1;
     //YEAR GET
-    parque[p][l][c].chegada->tm_year=local->tm_year+1900;  
+    parque[p][l][c].year_chegada=local->tm_year+1900;  
     //HOURS GET
-    parque[p][l][c].chegada->tm_hour=local->tm_hour;
+    parque[p][l][c].hours_chegada=local->tm_hour;
     //MINUTES GET
-    parque[p][l][c].chegada->tm_min=local->tm_min;
+    parque[p][l][c].minutes_chegada=local->tm_min;
+    //SECOUNDS GET
+    parque[p][l][c].secounds_chegada=local->tm_sec;
     //ESTABLECER O ESTADO COMO ESTACIONADO
     parque[p][l][c].estado=1;
 
 }
+
+
+//FUNCAO PARA DETERMINAR O PAGAMENTO DO PARQUE
+float Pagamento(int p , int l ,int c,parking parque[][linha][coluna]){
+    float min, horas, dia, mes, ano,sec;
+    float total;
+    
+    //TOTAL DE HORAS PASSADAS
+    ano = (float)parque[p][l][c].year_saida - (float)parque[p][l][c].year_chegada;   
+    //TOTAL DE MESES PASSADOS
+    mes = (float)parque[p][l][c].month_saida - (float)parque[p][l][c].month_chegada;
+    //TOTAL DE DIAS PASSADOS
+    dia = (float)parque[p][l][c].day_saida - (float)parque[p][l][c].day_chegada;
+    //TOTAL DE HORAS PASSADOS
+    horas = (float)parque[p][l][c].day_saida - (float)parque[p][l][c].day_chegada;
+    //TOTAL DE MINUTOS PASSADOS
+    min = (float)parque[p][l][c].day_saida - (float)parque[p][l][c].day_chegada;
+    //SECOUNDS GET
+    sec = (float)parque[p][l][c].secounds_saida - (float)parque[p][l][c].secounds_chegada;
+    //DETERMINAMOS O NUMERO TOTAL DE HORAS E MULTIPLACAMOS PELO TOTAL A PAGAR
+    total = (ano * 8640) + (mes * 744) + (dia * 24) + horas + (min / 60);    
+    total = total * 2.50;
+    
+    return total;
+
+}
+
+
+
+
+
+
+
+
 
 
 //FUNCAO PARA SETAR OS DADOS
@@ -63,19 +108,21 @@ void Destacionar(int p , int l ,int c,int count, parking parque[][linha][coluna]
     time_t now;
     time(&now);
     struct tm *data_saida = localtime(&now);
-    //INICIALIZAR FUNCAO PAGAMENTO COM PARAMETROS , DATA DE CHEGADA E DATA DE SAIDA;ARMAZENAR NA ABA "PAGAMENTO"
-    parque[p][l][c].pagamento=Pagamento(parque[p][l][c].chegada,data_saida);
-    //COLOCAR A DATA NO STRUCT
-     //DAY GET
-    parque[p][l][c].saida->tm_mday=data_saida->tm_mday;
+    //DAY GET
+    parque[p][l][c].day_saida=data_saida->tm_mday;
     //MOUNTH GET
-    parque[p][l][c].saida->tm_mon=data_saida->tm_mon+1;
+    parque[p][l][c].month_saida=data_saida->tm_mon+1;
     //YEAR GET
-    parque[p][l][c].saida->tm_year=data_saida->tm_year+1900;  
+    parque[p][l][c].year_saida=data_saida->tm_year+1900; 
     //HOURS GET
-    parque[p][l][c].saida->tm_hour=data_saida->tm_hour;
+    parque[p][l][c].hours_saida=data_saida->tm_hour;
     //MINUTES GET
-    parque[p][l][c].saida->tm_min=data_saida->tm_min;
+    parque[p][l][c].minutes_saida=data_saida->tm_min;
+    //SECOUNDS GET
+    parque[p][l][c].secounds_saida=data_saida->tm_sec;
+    
+    //INICIALIZAR FUNCAO PAGAMENTO COM PARAMETROS , DATA DE CHEGADA E DATA DE SAIDA;ARMAZENAR NA ABA "PAGAMENTO"
+    parque[p][l][c].pagamento=Pagamento(p,l,c,parque);
     //COLOCAR O OBJETO NO HISTORICO
     historico[count]=parque[p][l][c];  
 
@@ -83,24 +130,4 @@ void Destacionar(int p , int l ,int c,int count, parking parque[][linha][coluna]
 }
 
 
-//FUNCAO PARA DETERMINAR O PAGAMENTO DO PARQUE
-float Pagamento(struct tm data_chegada , struct tm data_saida){
-    int min, horas, dia, mes, ano;
-    float total;
-    //TOTAL DE HORAS PASSADAS
-    ano = data_saida.tm_year - data_chegada.tm_year + 1900;
-    //TOTAL DE MESES PASSADOS
-    mes = data_saida.tm_mon - data_chegada.tm_year + 1;
-    //TOTAL DE DIAS PASSADOS
-    dia = data_saida.tm_mday - data_chegada.tm_mday;  
-    //TOTAL DE HORAS PASSADOS
-    horas = data_saida.tm_hour - data_chegada.tm_hour;
-    //TOTAL DE MINUTOS PASSADOS
-    min = data_saida.tm_min - data_chegada.tm_min;
-    //DETERMINAMOS O NUMERO TOTAL DE HORAS E MULTIPLACAMOS PELO TOTAL A PAGAR
-    total = (ano * 8760) + (mes * 744) + (dia * 24) + hora + (min / 60);    
-    total = total * 2,50;
-   
-    return total;
 
-}
