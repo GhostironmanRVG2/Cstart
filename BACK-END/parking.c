@@ -13,6 +13,8 @@ typedef struct parking
  struct tm *saida;
  //ESTADO 0=destacionado 1=estacionado
  int estado;
+ //PAGAMENTO
+ float pagamento;
 }parking;
 
 //DECLARAR FUNCAO QUE LEVA ARRAY
@@ -53,11 +55,29 @@ struct tm *local = localtime(&now);
 
 //FUNCAO PARA SETAR OS DADOS
 void Destacionar(int p , int l ,int c,int count, parking parque[][linha][coluna],parking historico[]){
-//DAR ASIGN DOS VALORES COM PISO,LINHA E COLUNA FORNECIDOS CONSOANTE O QUE O UTILIZADOR CLICA NA FRONT-END
-    //COLOCAR O OBJETO NO HISTORICO
-    historico[count]=parque[p][l][c];    
+//DAR ASIGN DOS VALORES COM PISO,LINHA E COLUNA FORNECIDOS CONSOANTE O QUE O UTILIZADOR CLICA NA FRONT-END  
     //MUDAR O ESTADO SIMPLESMENTE PARA DESTACIONADO
     parque[p][l][c].estado=0;
+    //INICIALIZAR DADOS DE TIME PARA SABER A DATA ATUAL
+    time_t now;
+    time(&now);
+    struct tm *data_saida = localtime(&now);
+    //INICIALIZAR FUNCAO PAGAMENTO COM PARAMETROS , DATA DE CHEGADA E DATA DE SAIDA;ARMAZENAR NA ABA "PAGAMENTO"
+    parque[p][l][c].pagamento=Pagamento(parque[p][l][c].chegada,data_saida);
+    //COLOCAR A DATA NO STRUCT
+     //DAY GET
+    parque[p][l][c].saida->tm_mday=data_saida->tm_mday;
+    //MOUNTH GET
+    parque[p][l][c].saida->tm_mon=data_saida->tm_mon+1;
+    //YEAR GET
+    parque[p][l][c].saida->tm_year=data_saida->tm_year+1900;  
+    //HOURS GET
+    parque[p][l][c].saida->tm_hour=data_saida->tm_hour;
+    //MINUTES GET
+    parque[p][l][c].saida->tm_min=data_saida->tm_min;
+    //COLOCAR O OBJETO NO HISTORICO
+    historico[count]=parque[p][l][c];  
+
 
 }
 
