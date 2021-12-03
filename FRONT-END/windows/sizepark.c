@@ -7,7 +7,16 @@
 #define BUTTON_ONE 5
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 void DisableMaximizeButton(HWND hwnd);
-MSG sizew(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine, int nCmdShow){
+//STRUCT PARA ARMAZENAR OS 3 NUMEROS
+typedef struct sizepark
+{
+    int piso;
+    int linha;
+    int coluna;
+    /* data */
+}sizepark;
+sizepark result;
+sizepark sizew(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine, int nCmdShow){
 MSG msg;
 WNDCLASSEX wc;
 //REGISTAR A WINDOWS CLASS
@@ -33,8 +42,8 @@ while(GetMessage(&msg, NULL, 0, 0) > 0)
 TranslateMessage(&msg);
 DispatchMessage(&msg);
 }
-
-return msg;
+//return do resultado
+return result;
 
 
 
@@ -122,7 +131,12 @@ coluna_int=atoi(coluna);
 if(piso_int==0|linha_int==0|coluna_int==0){
     MessageBox(hwnd,"Por favor introduza dados validos","KARGA", 6);
 }else{
-printf("%d %d %d",piso_int,linha_int,coluna_int);
+//ARMAZENAR VALORES NO ARRAY QUE VAI RETORNAR DEPOIS DA FUNCAO SER EXECUTADA PARA O MAIN
+result.piso=piso_int;
+result.linha=linha_int;
+result.coluna=coluna_int;
+//DEPOIS DE ESTABLECER OS VALORES , DESTRUIR A JANELA
+DestroyWindow(hwnd);
 }
 }
 break;
