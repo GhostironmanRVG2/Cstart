@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <time.h>
 #include "../FRONT-END/windows/sizepark.c"
+#include "../FRONT-END/windows/mainw.c"
 #include "../BACK-END/parking.c"
 FILE *file;
 int piso=0,linha=0,coluna=0;
@@ -44,6 +45,7 @@ file=fopen("../BACK-END/logs/filedb.txt","wb");
     fclose(file);
 //INICIALIZACAO DO NOSSO ARRAY TIPO PARKING TRIDIMENCIONAL
 parking parque[linha][piso][coluna];
+mainw(hInstance,hPrevInstance,lpCmdLine,nCmdShow);
 printf("O parque foi inicialiado com %d pisos , %d linhas e %d colunas",piso,linha,coluna);
 }else{
 //MSG DE ERRO CASO NAO DE PARA SER INICIADO

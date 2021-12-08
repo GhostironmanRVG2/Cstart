@@ -30,11 +30,11 @@ wc.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
 wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
 wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
 wc.lpszMenuName  = NULL;
-wc.lpszClassName = TEXT("myWindowClass");
+wc.lpszClassName = TEXT("sizepark");
 wc.hIconSm       = LoadIcon(NULL, IDI_APPLICATION);
 RegisterClassEx(&wc);
 //CRIAR A WINDOW
-HWND hwnd=CreateWindowEx(WS_EX_CLIENTEDGE,TEXT("myWindowClass"),TEXT("KARGA"), WS_VISIBLE | WS_OVERLAPPEDWINDOW,CW_USEDEFAULT, CW_USEDEFAULT, 370, 230, NULL, NULL, hInstance, NULL);
+HWND hwnd=CreateWindowEx(WS_EX_CLIENTEDGE,TEXT("sizepark"),TEXT("KARGA"), WS_VISIBLE | WS_OVERLAPPEDWINDOW,CW_USEDEFAULT, CW_USEDEFAULT, 370, 230, NULL, NULL, hInstance, NULL);
 DisableMaximizeButton(hwnd);
 //LOOP DE MENSAGENS
 while(GetMessage(&msg, NULL, 0, 0) > 0)
