@@ -140,7 +140,50 @@ CreateWindowW(L"static", L"MATRICULA",
         hwnd, (HMENU)TITLES , NULL, NULL);
 button_historico = CreateWindowW(L"button", L"ENCONTRAR",
                 WS_VISIBLE | WS_CHILD, 1225, 600, 100, 42,
-                hwnd, (HMENU) ID_BUTTON_LAVAGEM, NULL, NULL);   
+                hwnd, (HMENU) ID_BUTTON_LAVAGEM, NULL, NULL);
+//DASHBOARD BELOW LIVRES
+CreateWindowW(L"static", L"NUMERO DE ESTACIONADOS:",
+        WS_CHILD | WS_VISIBLE,
+        100,750, 200,17, 
+        hwnd, (HMENU)TITLES , NULL, NULL);
+CreateWindowW(L"static", L"DINHEIRO FATURADO:",
+        WS_CHILD | WS_VISIBLE,
+        100,700, 150,17, 
+        hwnd, (HMENU)TITLES , NULL, NULL);
+//DASHBOARD BELLOW ESTACIONADOS
+CreateWindowW(L"static", L"TABELAS DE PREÇOS:",
+        WS_CHILD | WS_VISIBLE,
+        675,650, 150,17, 
+        hwnd, (HMENU)TITLES , NULL, NULL);
+CreateWindowW(L"static", L"CARRO:             2,5€ CAMIAO:            10€\nAUTOCARRO:    10€  CARAVANA:        5€\n                  HELICOPTERO: 200€\n                          Por hora!\n                Lavagens VIP: 20€ cada\n  (estacionar num tipo diferente do seu\n                  paga esse dado tipo)",
+        WS_CHILD | WS_VISIBLE,
+        610,670,270,112, 
+        hwnd, (HMENU)TITLES , NULL, NULL);
+//DASHBOARD HISTORICO
+CreateWindowW(L"static", L"LUGARES DISPONIVEIS:",
+        WS_CHILD | WS_VISIBLE,
+        1120,650, 165,17, 
+        hwnd, (HMENU)TITLES , NULL, NULL);
+CreateWindowW(L"static", L"CARRO:",
+        WS_CHILD | WS_VISIBLE,
+        1120,670, 55,17, 
+        hwnd, (HMENU)TITLES , NULL, NULL);
+CreateWindowW(L"static", L"CAMIAO:",
+        WS_CHILD | WS_VISIBLE,
+        1120,690, 55,17, 
+        hwnd, (HMENU)TITLES , NULL, NULL);
+CreateWindowW(L"static", L"AUTOCARRO:",
+        WS_CHILD | WS_VISIBLE,
+        1120,710, 90,17, 
+        hwnd, (HMENU)TITLES , NULL, NULL);
+CreateWindowW(L"static", L"CARAVANA:",
+        WS_CHILD | WS_VISIBLE,
+        1120,730,75,17, 
+        hwnd, (HMENU)TITLES , NULL, NULL);
+CreateWindowW(L"static", L"HELICOPTERO:",
+        WS_CHILD | WS_VISIBLE,
+        1120,750, 100,17, 
+        hwnd, (HMENU)TITLES , NULL, NULL);
 
 
 break;
