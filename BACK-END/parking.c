@@ -4,6 +4,7 @@
 int piso,linha,coluna;
 //STRUCT CARRO
 typedef struct carro{
+//ALO
 //MATRICULA
 char matricula[9];
 //TIPO VIATURA(0 - Deficientes, 3 - Carro, 2 - Caravanas, 1 - Autocarro&Camioes, 4 - Helicopteros)
