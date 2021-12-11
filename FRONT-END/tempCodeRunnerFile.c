@@ -1,1 +1,1 @@
-n_lavagens
+setTamanho

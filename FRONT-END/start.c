@@ -14,13 +14,18 @@ parking parque[linha][piso][coluna];
 parking historico[historicDynamic];
 
 Estacionar(1,1,1,"PP-OO-PP",0,parque);
+L_livres(parque);
 Estacionar(1,1,2,"PP-OO-PP",1,parque);
+L_ocupados(parque);
+L_livres(parque);
 //Destacionar(1,1,1,0,parque,historico);
 //printf("%f",historico[0].pagamento);
 Lavagem(1,1,1,parque);
 printf("\n%d", parque[1][1][1].n_lavagens);
 Destacionar(1,1,1,0,parque,historico);
 printf("\n%f",parque[1][1][1].pagamento);
+L_livres(parque);
+
 
 
 /*CUSPIR O NOSSO ARRAY

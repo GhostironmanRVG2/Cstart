@@ -73,6 +73,11 @@ struct tm *local = localtime(&now);
     parque[p][l][c].secounds_chegada=local->tm_sec;
     //ESTABLECER O ESTADO COMO ESTACIONADO
     parque[p][l][c].estado=1;
+    //PAGAMENTO = 0
+    parque[p][l][c].pagamento=0;
+    //NUMERO DE LAVAGENS = 0
+    parque[p][l][c].n_lavagens=0; 
+
 }
 
 
@@ -166,14 +171,14 @@ void Destacionar(int p , int l ,int c,int count, parking parque[][linha][coluna]
 //FUNÇÃO PARA CONTAR O NUMERO DE LAVAGENS FEITAS
 void Lavagem(int p, int l, int c, parking parque [][linha][coluna]){
     //ADICIONAMOS +1 AO CONTADOR DE LAVAGENS
-    parque[p][l][c].pagamento = parque[p][l][c].pagamento + 1;
+    parque[p][l][c].n_lavagens = parque[p][l][c].n_lavagens + 1;
 }
 
 
 
-//FUNÇÃO PARA LISTAR TODOS OS LUGARES LIVRES
+//FUNÇÃO PARA CONTAR TODOS OS LUGARES LIVRES
 int L_livres(parking parque [][linha][coluna]){
-    int p, l, c, count;
+    int p = 0, l = 0, c = 0, count = 0;
     //VERIFICAMOS TODOS OS PISOS
     for (p; p <= piso; p++){
         //VERIFICAMOS TODAS AS LINHAS
@@ -188,15 +193,14 @@ int L_livres(parking parque [][linha][coluna]){
             }
         }
     }
-    return 0;
-
+    printf("\n%d\n", count);
 }
 
 
 
-//FUNÇÃO PARA LISTAR TODOS OS LUGARES OCUPADOS
+//FUNÇÃO PARA CONTAR TODOS OS LUGARES OCUPADOS
 int L_ocupados(parking parque [][linha][coluna]){
-    int p, l, c, count;
+    int p = 0, l = 0, c = 0, count = 0;
     //VERIFICAMOS TODAS OS PISOS
     for (p; p <=piso; p++){
         //VERIFICAMOS TODAS AS LINHAS
@@ -204,14 +208,14 @@ int L_ocupados(parking parque [][linha][coluna]){
             //VERIFICAMOS TODAS AS COLUNAS
             for (c; c <=coluna; c++){
                 //VERIFICAMOS SE O ESTADO ESTÁ OCUPADO
-                if (parque[p][l][c].estado == 1){
+                if (parque[p][l][c].estado = 1){
                     //RETURNAMOS O PISO-LINHA-COLUNA
                     count = count + 1;
                 }
             }
         }
     }
-    return 0;
+    printf("\n%d\n", count);
 }
 
 
