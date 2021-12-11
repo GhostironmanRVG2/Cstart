@@ -6,10 +6,12 @@ int historicDynamic=1;
 //MAIN DO PROGRAMA
 int main()
 {
- linha=coluna=piso=2;  
+ linha=2;
+ piso=2;
+ coluna=3;  
  setTamanho(2,2,3); 
 //INICIALIZACAO DO NOSSO ARRAY TIPO PARKING TRIDIMENCIONAL
-parking parque[linha][piso][coluna];
+parking parque[piso][linha][coluna];
 //INICIALIZACAO DO ARRAY DE REGISTO HISTORICO
 parking historico[historicDynamic];
 
@@ -21,11 +23,12 @@ L_livres(parque);
 //Destacionar(1,1,1,0,parque,historico);
 //printf("%f",historico[0].pagamento);
 Lavagem(1,1,1,parque);
-printf("\n%d", parque[1][1][1].n_lavagens);
+printf("\n%d", parque[1][1][1].veiculo.n_lavagens);
 Destacionar(1,1,1,0,parque,historico);
-printf("\n%f",parque[1][1][1].pagamento);
+printf("\n%f",parque[1][1][1].veiculo.pagamento);
 L_livres(parque);
-
+inicializar(parque);
+printf("alo %s",parque[0][0][0].veiculo.matricula);
 
 
 /*CUSPIR O NOSSO ARRAY
