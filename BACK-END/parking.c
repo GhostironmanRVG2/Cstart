@@ -48,19 +48,19 @@ typedef struct parking
  data_saida saida;
  //ESTADO 0=LIVRE 1=OCUPADO
  int estado;
-//TIPO VIATURA(0 - Deficientes, 3 - Carro, 2 - Caravanas, 1 - Autocarro&Camioes, 4 - Helicopteros)
+//TIPO VIATURA(0 - Deficientes, 1 - Carro, 2 - Caravanas, 3 - Autocarro&Camioes, 4 - Helicopteros)
  int tipo;
 }parking;
 
 //DECLARAR FUNCAO QUE LEVA ARRAY
-void Estacionar(int p, int l ,int c, char m[], int t, parking parque[][linha][coluna]);
-void Destacionar(int p, int l, int c,int count,parking parque[][linha][coluna],parking historico[]);
-float Pagamento(int p, int l ,int c,parking parque[][linha][coluna]);
-void Lavagem(int p, int l, int c, parking parque [][linha][coluna]);
-int L_livres(parking parque [][linha][coluna]);
-int L_ocupados(parking parque [][linha][coluna]);
-int Find_lugar(char m[], parking parque [][linha][coluna]);
-int Find_car(char m[], parking parque [][linha][coluna]);
+void Estacionar(int p, int l ,int c, char m[], int t, parking parque[][30][30]);
+void Destacionar(int p, int l, int c,int count,parking parque[][30][30],parking historico[]);
+float Pagamento(int p, int l ,int c,parking parque[][30][30]);
+void Lavagem(int p, int l, int c, parking parque [][30][30]);
+int L_livres(parking parque [][30][30]);
+int L_ocupados(parking parque [][30][30]);
+int Find_lugar(char m[], parking parque [][30][30]);
+int Find_car(char m[], parking parque [][30][30]);
 //DECLARAR O TAMANHO DO ARRAY PARQUE
 void setTamanho(int p,int l,int c){
  piso=p;
@@ -69,7 +69,7 @@ void setTamanho(int p,int l,int c){
 }
 
 //FUNCAO PARA SETAR OS DADOS
-void Estacionar(int p , int l ,int c,char m[], int t, parking parque[][linha][coluna]){
+void Estacionar(int p , int l ,int c,char m[], int t, parking parque[][30][30]){
 //INICIALIZAR DADOS DE TIME
 time_t now;
 time(&now);
@@ -100,7 +100,7 @@ struct tm *local = localtime(&now);
 
 
 //FUNCAO PARA DETERMINAR O PAGAMENTO DO PARQUE
-float Pagamento(int p , int l ,int c,parking parque[][linha][coluna]){
+float Pagamento(int p , int l ,int c,parking parque[][30][30]){
     float min, horas, dia, mes, ano,sec;
     float total;
     int pagamento;
@@ -156,7 +156,7 @@ float Pagamento(int p , int l ,int c,parking parque[][linha][coluna]){
 
 
 //FUNCAO PARA SETAR OS DADOS
-void Destacionar(int p , int l ,int c,int count, parking parque[][linha][coluna],parking historico[]){
+void Destacionar(int p , int l ,int c,int count, parking parque[][30][30],parking historico[]){
 //DAR ASIGN DOS VALORES COM PISO,LINHA E COLUNA FORNECIDOS CONSOANTE O QUE O UTILIZADOR CLICA NA FRONT-END  
     //MUDAR O ESTADO SIMPLESMENTE PARA DESTACIONADO
     parque[p][l][c].estado=0;
@@ -186,7 +186,7 @@ void Destacionar(int p , int l ,int c,int count, parking parque[][linha][coluna]
 
 
 //FUNÇÃO PARA CONTAR O NUMERO DE LAVAGENS FEITAS
-void Lavagem(int p, int l, int c, parking parque [][linha][coluna]){
+void Lavagem(int p, int l, int c, parking parque [][30][30]){
     //ADICIONAMOS +1 AO CONTADOR DE LAVAGENS
     parque[p][l][c].veiculo.n_lavagens = parque[p][l][c].veiculo.n_lavagens + 1;
 }
@@ -194,7 +194,7 @@ void Lavagem(int p, int l, int c, parking parque [][linha][coluna]){
 
 
 //FUNÇÃO PARA CONTAR TODOS OS LUGARES LIVRES
-int L_livres(parking parque [][linha][coluna]){
+int L_livres(parking parque [][30][30]){
     int p = 0, l = 0, c = 0, count = 0;
     //VERIFICAMOS TODOS OS PISOS
     for (p; p <= piso; p++){
@@ -216,7 +216,7 @@ int L_livres(parking parque [][linha][coluna]){
 
 
 //FUNÇÃO PARA CONTAR TODOS OS LUGARES OCUPADOS
-int L_ocupados(parking parque [][linha][coluna]){
+int L_ocupados(parking parque [][30][30]){
     int p = 0, l = 0, c = 0, count = 0;
     //VERIFICAMOS TODAS OS PISOS
     for (p; p <=piso; p++){
@@ -238,7 +238,7 @@ int L_ocupados(parking parque [][linha][coluna]){
 
 
 //FUNÇÃO PARA PROCURAR UMA MATRICULA
-int Find_lugar(char m[], parking parque [][linha][coluna]){
+int Find_lugar(char m[], parking parque [][30][30]){
         int p, l, c;
     //VERIFICAMOS TODAS OS PISOS
     for (p; p <=piso; p++){
@@ -262,7 +262,7 @@ int Find_lugar(char m[], parking parque [][linha][coluna]){
 
 
 //FUNÇÃO PARA PROCURAR UMA MATRICULA
-int Find_car(char m[], parking parque [][linha][coluna]){
+int Find_car(char m[], parking parque [][30][30]){
     int p, l, c;
     //VERIFICAMOS TODAS OS PISOS
     for (p; p <=piso; p++){
@@ -290,7 +290,7 @@ int Find_car(char m[], parking parque [][linha][coluna]){
 
 
 //FUNCAO DE INICIALIZAR
-void inicializar(parking parque[][linha][coluna]){
+void inicializar(parking parque[][30][30]){
 
     for (int p = 0; p <piso; p++)
 {   

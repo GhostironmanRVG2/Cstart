@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <Windows.h>
+#include "../BACK-END/parking.c"
 //INSTANCIA
 HINSTANCE g_hinst;
+void loadLivre(HWND listalivres);
+void loadOcupado(HWND listaocupado);
 LRESULT CALLBACK Wnd(HWND, UINT, WPARAM, LPARAM);
 void DisableMaximizeButton(HWND hwnd);
 //DEFINIR O ID DE CADA UM DOS ITENS
@@ -18,9 +21,15 @@ void DisableMaximizeButton(HWND hwnd);
 #define ID_BUTTON_FIND 35
 #define ID_COMBO 40
 #define TITLES 50
-
-void mainw(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine, int nCmdShow){
+typedef struct ware{
+parking (*point)[30][30];
+}ware;
+ware warehouse;
+void mainw(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine, int nCmdShow,parking parque[][30][30]);
+void mainw(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine, int nCmdShow,parking parque[][30][30]){
 MSG msg;
+//PASSAR POINTER
+warehouse.point=parque;
 //PASSAR INSTANCIA
 g_hinst = hInstance;
 //CLASSE DA WINDOW
@@ -70,6 +79,8 @@ CreateWindowW(L"static", L"LISTA DE LUGARES VAGOS",
         WS_CHILD | WS_VISIBLE,
         200, 30, 180,20, 
         hwnd, (HMENU)TITLES , NULL, NULL);
+//DAR LOAD DA LISTA
+loadLivre(lista_livres);
 //INPUT DOS LIVRES
  input_livres = CreateWindowW(L"Edit", NULL, 
                 WS_CHILD | WS_VISIBLE | WS_BORDER,
@@ -102,6 +113,8 @@ CreateWindowW(L"static", L"LISTA DE LUGARES OCUPADOS",
         WS_CHILD | WS_VISIBLE,
         650, 30, 210,20, 
         hwnd, (HMENU)TITLES, NULL, NULL);
+//LOAD DOS OCUPADOS
+loadOcupado(lista_estacionados);
 //INPUT DOS LIVRES
  input_livres = CreateWindowW(L"Edit", NULL, 
                 WS_CHILD | WS_VISIBLE | WS_BORDER,
@@ -188,13 +201,88 @@ CreateWindowW(L"static", L"HELICOPTERO:",
 
 break;
 case WM_COMMAND:
+
+//BOTAO ESTACIONAR
+//SE FOR O BOTAO LIVRE..
+if(LOWORD(wParam)==ID_BUTTON_LIVRES){
+//SE FOI CLICADO
+if (HIWORD(wParam) == BN_CLICKED) {
+//INDEX DO LIVRES
+int sel = (int) SendMessageW(lista_livres, LB_GETCURSEL, 0, 0);
+//BUSCAR O TEXTO E GUARDAR NUMA VARIAVEL
+char get[50];
+SendMessage(lista_livres,LB_GETTEXT,sel,(LPARAM)get);
+//IR BUSCAR CARACTERES PARA SABER A POSICAO DO ARRAY
+int piso_ocu=(int)get[1]-48;
+int linha_ocu=(int)get[4]-48;
+int coluna_ocu=(int)get[7]-48;
+//IR BUSCAR A MATRICULA
+char matricula[9];
+SendMessage(input_livres, WM_GETTEXT,0,(LPARAM)matricula);
+//ESTACIONAR
+Estacionar(piso_ocu,linha_ocu,coluna_ocu,matricula,0,warehouse.point);
+//REMOVER DE UM E PASSAR PARA O OUTRO
+SendMessage(lista_livres,LB_DELETESTRING,sel,0);
+
+char tipo_estacionamento[20];
+    switch (warehouse.point[piso_ocu][linha_ocu][coluna_ocu].tipo)
+    {
+    //TIPO DEFS
+    case 0:
+    strcpy(tipo_estacionamento,"Deficientes");
+    break;
+    //TIPO CARAVANAS
+    case 2:
+    strcpy(tipo_estacionamento,"Caravana");
+    break;
+    //TIPO BUS&CAMIOES
+    case 3:
+    strcpy(tipo_estacionamento,"Autocarro|Camiao");
+    break;
+    //TIPO HELICOPTER
+    case 4:
+    strcpy(tipo_estacionamento,"Helicoptero");
+    break;
+    //TIPO CARRO
+    default:
+    strcpy(tipo_estacionamento,"carro");
+    break;
+    }
+ //ADICIONAR MSG
+    char ocupado[100];
+    //COLOCAR DENTRO DA MSG
+    snprintf(ocupado,100, "[%d][%d][%d]|T.E:%s|\nDataEntrada:%d/%d/%d %d:%d:%d|"
+    ,piso_ocu,linha_ocu,coluna_ocu,
+    tipo_estacionamento,
+    warehouse.point[piso_ocu][linha_ocu][coluna_ocu].entrada.day_chegada,
+    warehouse.point[piso_ocu][linha_ocu][coluna_ocu].entrada.month_chegada,
+    warehouse.point[piso_ocu][linha_ocu][coluna_ocu].entrada.year_chegada,
+    warehouse.point[piso_ocu][linha_ocu][coluna_ocu].entrada.hours_chegada,
+    warehouse.point[piso_ocu][linha_ocu][coluna_ocu].entrada.minutes_chegada,
+    warehouse.point[piso_ocu][linha_ocu][coluna_ocu].entrada.secounds_chegada);
+    //ADICIONAR
+    SendMessage(lista_estacionados,LB_ADDSTRING,0,(LPARAM)ocupado);
+}
+}
+
+
+
+
+
+
 //COMMUNICATION
 if (HIWORD(wParam) == CBN_SELCHANGE) {           
         LRESULT sel = SendMessage(combo, CB_GETCURSEL, 0, 0);
              }
-//responds to button click
-if (HIWORD(wParam) == BN_CLICKED) {
-}
+
+
+
+
+
+
+
+
+
 //INTERACAO COM A LISTA
 if (HIWORD(wParam) == LBN_SELCHANGE) { 
               TCHAR lbvalue[8];
@@ -218,4 +306,122 @@ default:
 return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 return 0;
+}
+
+
+
+void loadLivre(HWND listalivres){
+
+     for (int p = 0; p <piso; p++)
+{   
+    //QUANDO VOLTA VOLTA AQUI MUDA O PISO
+    int l=0;
+    for (l;l<linha;l++)
+    {
+    //LINHA
+    int c=0;
+    
+    for (c;c<coluna;c++)
+    {
+    //SE O ESTADO FOR 0 ENTAO ESTA LIVRE
+    if(warehouse.point[p][l][c].estado==0){
+    //VERIFICAR TIPO DE ESTACIONAMENTO E ALOCAR NUMA VARIAVEL CONSOANTE O MESMO
+    char tipo_estacionamento[20];
+    switch (warehouse.point[p][l][c].tipo)
+    {
+    //TIPO DEFS
+    case 0:
+    strcpy(tipo_estacionamento,"Deficientes");
+    break;
+    //TIPO CARAVANAS
+    case 2:
+    strcpy(tipo_estacionamento,"Caravana");
+    break;
+    //TIPO BUS&CAMIOES
+    case 3:
+    strcpy(tipo_estacionamento,"Autocarro|Camiao");
+    break;
+    //TIPO HELICOPTER
+    case 4:
+    strcpy(tipo_estacionamento,"Helicoptero");
+    break;
+    //TIPO CARRO
+    default:
+    strcpy(tipo_estacionamento,"carro");
+    break;
+    }
+    //ADICIONAR MSG
+    char livre[50];
+    snprintf(livre,50, "[%d][%d][%d]Tipo de estacionamento:%s", p,l,c,tipo_estacionamento);
+    SendMessage(listalivres,LB_ADDSTRING,0,(LPARAM)livre);
+    }
+    
+    } //
+    }
+}      
+
+}
+
+
+
+void loadOcupado(HWND listaocupado){
+
+     for (int p = 0; p <piso; p++)
+{   
+    //QUANDO VOLTA VOLTA AQUI MUDA O PISO
+    int l=0;
+    for (l;l<linha;l++)
+    {
+    //LINHA
+    int c=0;
+    
+    for (c;c<coluna;c++)
+    {
+    //SE O ESTADO FOR 0 ENTAO ESTA LIVRE
+    if(warehouse.point[p][l][c].estado==1){
+    //VERIFICAR TIPO DE ESTACIONAMENTO E ALOCAR NUMA VARIAVEL CONSOANTE O MESMO
+    char tipo_estacionamento[20];
+    switch (warehouse.point[p][l][c].tipo)
+    {
+    //TIPO DEFS
+    case 0:
+    strcpy(tipo_estacionamento,"Deficientes");
+    break;
+    //TIPO CARAVANAS
+    case 2:
+    strcpy(tipo_estacionamento,"Caravana");
+    break;
+    //TIPO BUS&CAMIOES
+    case 3:
+    strcpy(tipo_estacionamento,"Autocarro|Camiao");
+    break;
+    //TIPO HELICOPTER
+    case 4:
+    strcpy(tipo_estacionamento,"Helicoptero");
+    break;
+    //TIPO CARRO
+    default:
+    strcpy(tipo_estacionamento,"carro");
+    break;
+    }
+    //ADICIONAR MSG
+    char ocupado[100];
+    //COLOCAR DENTRO DA MSG
+    snprintf(ocupado,100, "[%d][%d][%d]|T.E:%s|\nDataEntrada:%d/%d/%d %d:%d:%d|"
+    ,p,l,c,
+    tipo_estacionamento,
+    warehouse.point[p][l][c].entrada.day_chegada,
+    warehouse.point[p][l][c].entrada.month_chegada,
+    warehouse.point[p][l][c].entrada.year_chegada,
+    warehouse.point[p][l][c].entrada.hours_chegada,
+    warehouse.point[p][l][c].entrada.minutes_chegada,
+    warehouse.point[p][l][c].entrada.secounds_chegada);
+    //ADICIONAR
+    SendMessage(listaocupado,LB_ADDSTRING,0,(LPARAM)ocupado);
+    }
+    
+    } 
+    }
+}      
+
 }

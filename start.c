@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <time.h>
-#include "../BACK-END/parking.c"
 int piso,linha,coluna;
 int historicDynamic=1;
 //MAIN DO PROGRAMA
