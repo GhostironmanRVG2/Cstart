@@ -218,29 +218,42 @@ SendMessage(lista_livres,LB_GETTEXT,sel,(LPARAM)get);
 int posi = 2;
 //PISO ESTÁ NA POSIÇÃO 1
 int piso_ocu=(int)get[1]-48;
-//CASO O NUMERO SEJA MENOR QUE 48 SIGNIFICA QUE NAO É UM PARENTESE RETO E É UM INT
-if ((int)get[posi]< 48){
-        //SIGNIFICA QUE O ALGORITMO TEM MAIS DE DOIS ALGORITEMOS
+//CASO O NUMERO SEJA MENOR QUE 30 SIGNIFICA QUE NAO É UM PARENTESE RETO MAS SIM UM NUMERO
+//VISTO QUE [ TEM VALOR 43 E ] TEM VALOR 45
+if ((int)get[posi]-48< 30){
+        //SIGNIFICA QUE O PISO É CONSTITUIDO POR 2 ALGORITEMOS
+        //CALCULAMOS O VALOR DO LUGAR
         piso_ocu = piso_ocu * 10;
         piso_ocu = piso_ocu + (int)get[2]-48;
-        //SOMAMOS MAIS 3 A POSIÇÃO PARA IR AO PROXIMO NUMERO
+        //SOMAMOS MAIS 3 POSIÇÕES IR AO PROXIMO NUMERO
         posi = posi + 3;
 }else {
+        //SE NAO FOR UM NUMERO SOMAMOS APENAS MAIS 2 POSIÇÕES
         posi = posi + 2; 
 }
+//GET DO VALOR DA LINHA
 int linha_ocu=(int)get[posi]-48;
+//SOMAMOS MAIS UMA POSIÇÃO PARA IR PARA APROXIMA POSIÇÃO
 posi = posi + 1;
-if((int)get[posi]<48){
+if((int)get[posi]-48<30){
+        //SIGNIFICA QUE A LINHA É CONSTITUIDA POR 2 ALGORITMOS
+        //CALCULAMOS O VALOR DA LINHA
         linha_ocu = linha_ocu * 10;
         linha_ocu = linha_ocu + (int)get[posi] - 48;
+        //SOMAMOS MAIS 3 POSIÇÕES PARA IR AO PROXIMO NUMERO
         posi = posi + 3;
 }
 else {
+        //SOMAMOS MAIS 2 POSIÇÕES PARA IR AO PROXIMO NUMERO
         posi = posi + 2;
 }
+//GET DO CALOR DA COLUNA
 int coluna_ocu=(int)get[posi]-48;
+//SOMAMOS MAIS UMA POSIÇÃO
 posi = posi + 1;
-if((int)get[posi]<48){
+if((int)get[posi]-48<30){
+        //SIGNIFICA QUE A LINHA É CONSTITUIDA POR 2 ALGORITMOS
+        //CALCULAMOS O VALOR DA COLUNA
         coluna_ocu = coluna_ocu * 10;
         coluna_ocu=coluna_ocu + (int)get[posi]-48;    
 }
