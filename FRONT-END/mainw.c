@@ -212,10 +212,39 @@ int sel = (int) SendMessageW(lista_livres, LB_GETCURSEL, 0, 0);
 //BUSCAR O TEXTO E GUARDAR NUMA VARIAVEL
 char get[50];
 SendMessage(lista_livres,LB_GETTEXT,sel,(LPARAM)get);
+
 //IR BUSCAR CARACTERES PARA SABER A POSICAO DO ARRAY
+//CRIAMOS UM INT POSI PARA PODER CONTROLAR A POSIÇÃO QUE QUEREMOS
+int posi = 2;
+//PISO ESTÁ NA POSIÇÃO 1
 int piso_ocu=(int)get[1]-48;
-int linha_ocu=(int)get[4]-48;
-int coluna_ocu=(int)get[7]-48;
+//CASO O NUMERO SEJA MENOR QUE 48 SIGNIFICA QUE NAO É UM PARENTESE RETO E É UM INT
+if ((int)get[posi]< 48){
+        //SIGNIFICA QUE O ALGORITMO TEM MAIS DE DOIS ALGORITEMOS
+        piso_ocu = piso_ocu * 10;
+        piso_ocu = piso_ocu + (int)get[2]-48;
+        //SOMAMOS MAIS 3 A POSIÇÃO PARA IR AO PROXIMO NUMERO
+        posi = posi + 3;
+}else {
+        posi = posi + 2; 
+}
+int linha_ocu=(int)get[posi]-48;
+posi = posi + 1;
+if((int)get[posi]<48){
+        linha_ocu = linha_ocu * 10;
+        linha_ocu = linha_ocu + (int)get[posi] - 48;
+        posi = posi + 3;
+}
+else {
+        posi = posi + 2;
+}
+int coluna_ocu=(int)get[posi]-48;
+posi = posi + 1;
+if((int)get[posi]<48){
+        coluna_ocu = coluna_ocu * 10;
+        coluna_ocu=coluna_ocu + (int)get[posi]-48;    
+}
+
 //IR BUSCAR A MATRICULA
 char matricula[9];
 SendMessage(input_livres, WM_GETTEXT,0,(LPARAM)matricula);
