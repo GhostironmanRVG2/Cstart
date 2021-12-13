@@ -25,6 +25,7 @@ typedef struct ware{
 parking (*point)[30][30];
 }ware;
 ware warehouse;
+int verifymatric(char matric[]);
 void mainw(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine, int nCmdShow,parking parque[][30][30]);
 void mainw(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine, int nCmdShow,parking parque[][30][30]){
 MSG msg;
@@ -84,7 +85,7 @@ loadLivre(lista_livres);
 //INPUT DOS LIVRES
  input_livres = CreateWindowW(L"Edit", NULL, 
                 WS_CHILD | WS_VISIBLE | WS_BORDER,
-                115, 620,65,23, hwnd, (HMENU)ID_INPUT_LIVRES,
+                108, 620,85,23, hwnd, (HMENU)ID_INPUT_LIVRES,
                 NULL, NULL);
 CreateWindowW(L"static", L"MATRICULA",
         WS_CHILD | WS_VISIBLE,
@@ -95,10 +96,10 @@ CreateWindowW(L"static", L"MATRICULA",
                     WS_CHILD | WS_VISIBLE | CBS_DROPDOWN,
                     235, 610, 120, 200, hwnd, (HMENU)ID_COMBO, g_hinst, NULL);
 //ENCHER BUFFER  
+SendMessage(combo, CB_ADDSTRING, 0, (LPARAM)"DEFICIENTE");
 SendMessage(combo, CB_ADDSTRING, 0, (LPARAM)"CARRO");
-SendMessage(combo, CB_ADDSTRING, 0, (LPARAM)"CAMIAO");
-SendMessage(combo, CB_ADDSTRING, 0, (LPARAM)"AUTOCARRO");
 SendMessage(combo, CB_ADDSTRING, 0, (LPARAM)"CARAVANA");
+SendMessage(combo, CB_ADDSTRING, 0, (LPARAM)"BUS/CAMI");
 SendMessage(combo, CB_ADDSTRING, 0, (LPARAM)"HELICOPTERO");
 //BUTTON DOS LIVRES
 button_livres = CreateWindowW(L"button", L"ESTACIONAR",
@@ -116,9 +117,9 @@ CreateWindowW(L"static", L"LISTA DE LUGARES OCUPADOS",
 //LOAD DOS OCUPADOS
 loadOcupado(lista_estacionados);
 //INPUT DOS LIVRES
- input_livres = CreateWindowW(L"Edit", NULL, 
+ input_estacionados = CreateWindowW(L"Edit", NULL, 
                 WS_CHILD | WS_VISIBLE | WS_BORDER,
-                565, 620,65,23, hwnd, (HMENU)ID_INPUT_ESTACIONADOS,
+                565, 620,85,23, hwnd, (HMENU)ID_INPUT_ESTACIONADOS,
                 NULL, NULL);
 CreateWindowW(L"static", L"MATRICULA",
         WS_CHILD | WS_VISIBLE,
@@ -209,6 +210,9 @@ if(LOWORD(wParam)==ID_BUTTON_LIVRES){
 if (HIWORD(wParam) == BN_CLICKED) {
 //INDEX DO LIVRES
 int sel = (int) SendMessageW(lista_livres, LB_GETCURSEL, 0, 0);
+if(sel==-1){
+MessageBox(hwnd,"Por favor selecione um lugar livre","KARGA", 6);
+}else{
 //BUSCAR O TEXTO E GUARDAR NUMA VARIAVEL
 char get[50];
 SendMessage(lista_livres,LB_GETTEXT,sel,(LPARAM)get);
@@ -259,41 +263,50 @@ if((int)get[posi]-48<30){
 }
 
 //IR BUSCAR A MATRICULA
-char matricula[9];
-SendMessage(input_livres, WM_GETTEXT,0,(LPARAM)matricula);
+char matricula[10];
+//gets value of textbox and stores in  'textvalue'
+GetWindowText(input_livres,matricula,10);
+//IR BUSCAR O TIPO DO CARRO
+int  cursor_combo=(int)SendMessage(combo, CB_GETCURSEL, 0, 0);
+if(cursor_combo==-1){
+        cursor_combo=1;
+}
+if(verifymatric(matricula)==0){
+MessageBox(hwnd,"Introduza uma matricula valida","KARGA", 6);
+}else{
 //ESTACIONAR
-Estacionar(piso_ocu,linha_ocu,coluna_ocu,matricula,0,warehouse.point);
+Estacionar(piso_ocu,linha_ocu,coluna_ocu,matricula,cursor_combo,warehouse.point);
 //REMOVER DE UM E PASSAR PARA O OUTRO
 SendMessage(lista_livres,LB_DELETESTRING,sel,0);
 
 char tipo_estacionamento[20];
-    switch (warehouse.point[piso_ocu][linha_ocu][coluna_ocu].tipo)
+    switch (warehouse.point[piso_ocu][linha_ocu][coluna_ocu].veiculo.tipo_de_veiculo)
     {
     //TIPO DEFS
     case 0:
-    strcpy(tipo_estacionamento,"Deficientes");
+    strcpy(tipo_estacionamento,"Def");
     break;
     //TIPO CARAVANAS
     case 2:
-    strcpy(tipo_estacionamento,"Caravana");
+    strcpy(tipo_estacionamento,"Carav");
     break;
     //TIPO BUS&CAMIOES
     case 3:
-    strcpy(tipo_estacionamento,"Autocarro|Camiao");
+    strcpy(tipo_estacionamento,"Autoc/cam");
     break;
     //TIPO HELICOPTER
     case 4:
-    strcpy(tipo_estacionamento,"Helicoptero");
+    strcpy(tipo_estacionamento,"Heli");
     break;
     //TIPO CARRO
-    default:
-    strcpy(tipo_estacionamento,"carro");
+    case 1:
+    strcpy(tipo_estacionamento,"car");
     break;
     }
  //ADICIONAR MSG
     char ocupado[100];
     //COLOCAR DENTRO DA MSG
-    snprintf(ocupado,100, "[%d][%d][%d]|T.E:%s|\nDataEntrada:%d/%d/%d %d:%d:%d|"
+    snprintf(ocupado,100, "[%d][%d][%d]|%s|D.E:%d/%d/%d %d:%d:%d|%s|"
     ,piso_ocu,linha_ocu,coluna_ocu,
     tipo_estacionamento,
     warehouse.point[piso_ocu][linha_ocu][coluna_ocu].entrada.day_chegada,
@@ -301,9 +314,14 @@ char tipo_estacionamento[20];
     warehouse.point[piso_ocu][linha_ocu][coluna_ocu].entrada.year_chegada,
     warehouse.point[piso_ocu][linha_ocu][coluna_ocu].entrada.hours_chegada,
     warehouse.point[piso_ocu][linha_ocu][coluna_ocu].entrada.minutes_chegada,
-    warehouse.point[piso_ocu][linha_ocu][coluna_ocu].entrada.secounds_chegada);
+    warehouse.point[piso_ocu][linha_ocu][coluna_ocu].entrada.secounds_chegada,
+    matricula);
     //ADICIONAR
     SendMessage(lista_estacionados,LB_ADDSTRING,0,(LPARAM)ocupado);
+    //ESTACIONAR
+    Estacionar(piso_ocu,linha_ocu,coluna_ocu,matricula,0,warehouse.point);
+}
+}
 }
 }
 
@@ -351,9 +369,9 @@ return 0;
 }
 
 
-
+//funcao loadLivre
 void loadLivre(HWND listalivres){
-
+int contador=0;
      for (int p = 0; p <piso; p++)
 {   
     //QUANDO VOLTA VOLTA AQUI MUDA O PISO
@@ -392,9 +410,11 @@ void loadLivre(HWND listalivres){
     strcpy(tipo_estacionamento,"carro");
     break;
     }
+    contador+=1;
     //ADICIONAR MSG
     char livre[50];
     snprintf(livre,50, "[%d][%d][%d]Tipo de estacionamento:%s", p,l,c,tipo_estacionamento);
+    //NAO ENCHER MAIS QUE 17997 LINHAS POIS SE ENCHER ELE BUGA
     SendMessage(listalivres,LB_ADDSTRING,0,(LPARAM)livre);
     }
     
@@ -405,7 +425,7 @@ void loadLivre(HWND listalivres){
 }
 
 
-
+//funcao load estacionados
 void loadOcupado(HWND listaocupado){
 
      for (int p = 0; p <piso; p++)
@@ -467,3 +487,36 @@ void loadOcupado(HWND listaocupado){
 }      
 
 }
+
+//FUNCAO VERIFY MATRIC
+int verifymatric(char matric[]){
+        int lenght =strnlen(matric,10);
+if(
+(  (   (((int)matric[0]-48)<=9)&&( ((int)matric[0]-48)>=0)  ) ||   (   (((int)matric[0]-48)<=42)&&( ((int)matric[0]-48)>=17)  )               ) //POS 0 SEM CARACTERES ESTRANHOS
+&&
+(  (   (((int)matric[1]-48)<=9)&&( ((int)matric[1]-48)>=0)  ) ||   (   (((int)matric[1]-48)<=42)&&( ((int)matric[1]-48)>=17)  )  )//POS 1 SEM C.E
+&&
+(                    (  ((int)matric[5]-48) ==-3)                )//POS 2 COM C.E
+&&
+(  (   (((int)matric[3]-48)<=9)&&( ((int)matric[3]-48)>=0)  ) ||   (   (((int)matric[3]-48)<=42)&&( ((int)matric[3]-48)>=17)  )   )//POS 3 SEM C.E
+&&
+(  (   (((int)matric[4]-48)<=9)&&( ((int)matric[4]-48)>=0)  ) ||   (   (((int)matric[4]-48)<=42)&&( ((int)matric[4]-48)>=17)  )   )//POS 4 SEM C.E
+&&
+(                    (  ((int)matric[5]-48) ==-3)               )//POS 5 COM C.E
+&&
+(   (   (((int)matric[6]-48)<=9)&&( ((int)matric[6]-48)>=0)  ) ||   (   (((int)matric[6]-48)<=42)&&( ((int)matric[6]-48)>=17)  )  )//POS 6 SEM C.E
+&&
+(   (   (((int)matric[7]-48)<=9)&&( ((int)matric[7]-48)>=0)  ) ||   (   (((int)matric[7]-48)<=42)&&( ((int)matric[7]-48)>=17)  )     )//POS 7 SEM C.E  
+&&
+(lenght==8)
+){
+return 1;
+ 
+}else{
+
+        return 0;
+}
+
+}
+
+

@@ -7,7 +7,7 @@ typedef struct carro{
 //ALO
 //MATRICULA
 char matricula[9];
-//TIPO VIATURA(0 - Deficientes, 3 - Carro, 2 - Caravanas, 1 - Autocarro&Camioes, 4 - Helicopteros)
+//TIPO VIATURA(0 - Deficientes, 1 - Carro, 2 - Caravanas, 3- Autocarro&Camioes, 4 - Helicopteros)
 int tipo_de_veiculo;
 //nmr lavagens
 int n_lavagens;

@@ -1,3 +1,0 @@
-piso=11
-linha=11
-coluna=11
