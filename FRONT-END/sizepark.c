@@ -128,6 +128,10 @@ int piso_int,linha_int,coluna_int;
 piso_int=atoi(piso);
 linha_int=atoi(linha);
 coluna_int=atoi(coluna);
+if(piso_int>20|linha_int>30|coluna_int>30){
+MessageBox(hwnd,"Por favor introduza um valor inferior a 20 no piso , a 30 na linha e a 30 na coluna","KARGA", 6);
+}
+else
 if(piso_int==0|linha_int==0|coluna_int==0){
     MessageBox(hwnd,"Por favor introduza dados validos","KARGA", 6);
 }else{
