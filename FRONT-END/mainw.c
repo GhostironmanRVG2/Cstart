@@ -25,10 +25,12 @@ typedef struct ware{
 parking (*point)[30][30];
 }ware;
 ware warehouse;
+int helas;
 int verifymatric(char matric[]);
-void mainw(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine, int nCmdShow,parking parque[][30][30]);
-void mainw(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine, int nCmdShow,parking parque[][30][30]){
+void mainw(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine, int nCmdShow,parking parque[][30][30],int helicopter_lenght);
+void mainw(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine, int nCmdShow,parking parque[][30][30],int helicopter_lenght){
 MSG msg;
+helas=helicopter_lenght;
 //PASSAR POINTER
 warehouse.point=parque;
 //PASSAR INSTANCIA
@@ -72,6 +74,21 @@ LRESULT CALLBACK Wnd(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 switch(msg)
 {
 case WM_CREATE:
+//ICON
+{
+		
+			HICON hIcon, hIconSm;
+			hIcon = (HICON)LoadImage(NULL,"../Cstart/FRONT-END/icon.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE);
+			if(hIcon)
+			{
+				SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+			}
+			else
+			{
+				MessageBox(hwnd, "Could not load large icon! Is it in the current working directory?", "Error", MB_OK | MB_ICONERROR);
+			}
+
+		}
 //LISTA LIVRES & titulo
 lista_livres = CreateWindow(TEXT("ListBox"), TEXT(""), 
 WS_CHILD | WS_VISIBLE | LBS_NOTIFY| WS_BORDER | WS_VSCROLL
@@ -119,7 +136,7 @@ loadOcupado(lista_estacionados);
 //INPUT DOS LIVRES
  input_estacionados = CreateWindowW(L"Edit", NULL, 
                 WS_CHILD | WS_VISIBLE | WS_BORDER,
-                565, 620,85,23, hwnd, (HMENU)ID_INPUT_ESTACIONADOS,
+                557, 620,85,23, hwnd, (HMENU)ID_INPUT_ESTACIONADOS,
                 NULL, NULL);
 CreateWindowW(L"static", L"MATRICULA",
         WS_CHILD | WS_VISIBLE,
@@ -372,6 +389,13 @@ return 0;
 //funcao loadLivre
 void loadLivre(HWND listalivres){
 int contador=0;
+if(helas==1){
+    //ADICIONAR MSG
+    char livre[50];
+    snprintf(livre,50, "[%d][%d][%d]Tipo de estacionamento:%s", piso,0,0,"helicoper");
+    //NAO ENCHER MAIS QUE 17997 LINHAS POIS SE ENCHER ELE BUGA
+    SendMessage(listalivres,LB_ADDSTRING,0,(LPARAM)livre);     
+    }    
      for (int p = 0; p <piso; p++)
 {   
     //QUANDO VOLTA VOLTA AQUI MUDA O PISO

@@ -1,0 +1,7 @@
+piso=20
+linha=30
+coluna=30
+defs=9
+bus=9
+caravana=9
+helicoptero_main=1

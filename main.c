@@ -56,10 +56,10 @@ file=fopen("../Cstart/BACK-END/logs/db.txt","wb");
 
     fclose(file);
 //INICIALIZACAO DO NOSSO ARRAY TIPO PARKING TRIDIMENCIONAL
-parking parque[20][30][30];
-inicializar(parque);
-Estacionar(0,0,0,"PO-LL-22",1,parque);
-mainw(hInstance,hPrevInstance,lpCmdLine,nCmdShow,parque);
+parking parque[21][30][30];
+inicializar(defs,caravana,bus,helicoptero_main,parque);
+printf("%d",parque[20][0][0].tipo);
+mainw(hInstance,hPrevInstance,lpCmdLine,nCmdShow,parque,helicoptero_main);
 printf("O parque foi inicialiado com %d pisos , %d linhas , %d colunas,defs %d, %d caravanas , %d bus e %d helicopteros",piso,linha,coluna,defs,caravana,bus,helicoptero_main);
 }else{
 //MSG DE ERRO CASO NAO DE PARA SER INICIADO

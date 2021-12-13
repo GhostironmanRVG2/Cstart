@@ -290,8 +290,29 @@ int Find_car(char m[], parking parque [][30][30]){
 
 
 //FUNCAO DE INICIALIZAR
-void inicializar(parking parque[][30][30]){
-
+void inicializar(int defs_number,int carv_number,int bus_number,int helicopter_number,parking parque[][30][30]){
+    int counter_defs=0;
+    int counter_caravanas=0;
+    int counter_bus=0;
+if(helicopter_number==1){
+    strcpy(parque[piso][0][0].veiculo.matricula,"");
+    parque[piso][0][0].tipo=4;
+    parque[piso][0][0].veiculo.n_lavagens=0;
+    parque[piso][0][0].entrada.year_chegada=0;
+    parque[piso][0][0].entrada.month_chegada=0;
+    parque[piso][0][0].entrada.day_chegada=0;
+    parque[piso][0][0].entrada.hours_chegada=0;
+    parque[piso][0][0].entrada.minutes_chegada=0;
+    parque[piso][0][0].entrada.secounds_chegada=0;
+    parque[piso][0][0].saida.year_saida=0;
+    parque[piso][0][0].saida.month_saida=0;
+    parque[piso][0][0].saida.day_saida=0;
+    parque[piso][0][0].saida.hours_saida=0;
+    parque[piso][0][0].saida.minutes_saida=0;
+    parque[piso][0][0].saida.secounds_saida=0;
+    parque[piso][0][0].estado=0;
+    parque[piso][0][0].veiculo.pagamento=0;
+}
     for (int p = 0; p <piso; p++)
 {   
     //QUANDO VOLTA VOLTA AQUI MUDA O PISO
@@ -305,6 +326,7 @@ void inicializar(parking parque[][30][30]){
     {
     //AS OPERACOES VAO EXECUTAR TODAS AQUI PORTANTO...
     //SETAR ATRIBUTOS COMO VAZIOS
+    if((defs_number>0)&&(p==0)&&(defs_number!=counter_defs)){
     strcpy(parque[p][l][c].veiculo.matricula,"");
     parque[p][l][c].tipo=0;
     parque[p][l][c].veiculo.n_lavagens=0;
@@ -322,7 +344,70 @@ void inicializar(parking parque[][30][30]){
     parque[p][l][c].saida.secounds_saida=0;
     parque[p][l][c].estado=0;
     parque[p][l][c].veiculo.pagamento=0;
+    counter_defs=counter_defs+1;
+    }else if(counter_bus!=bus_number&&bus_number>0&&p==0){
 
+ strcpy(parque[p][l][c].veiculo.matricula,"");
+    parque[p][l][c].tipo=3;
+    parque[p][l][c].veiculo.n_lavagens=0;
+    parque[p][l][c].entrada.year_chegada=0;
+    parque[p][l][c].entrada.month_chegada=0;
+    parque[p][l][c].entrada.day_chegada=0;
+    parque[p][l][c].entrada.hours_chegada=0;
+    parque[p][l][c].entrada.minutes_chegada=0;
+    parque[p][l][c].entrada.secounds_chegada=0;
+    parque[p][l][c].saida.year_saida=0;
+    parque[p][l][c].saida.month_saida=0;
+    parque[p][l][c].saida.day_saida=0;
+    parque[p][l][c].saida.hours_saida=0;
+    parque[p][l][c].saida.minutes_saida=0;
+    parque[p][l][c].saida.secounds_saida=0;
+    parque[p][l][c].estado=0;
+    parque[p][l][c].veiculo.pagamento=0;
+    counter_bus+=1;
+
+    }else if(counter_caravanas!=carv_number&&carv_number>0&&p==1){
+
+
+ strcpy(parque[p][l][c].veiculo.matricula,"");
+    parque[p][l][c].tipo=2;
+    parque[p][l][c].veiculo.n_lavagens=0;
+    parque[p][l][c].entrada.year_chegada=0;
+    parque[p][l][c].entrada.month_chegada=0;
+    parque[p][l][c].entrada.day_chegada=0;
+    parque[p][l][c].entrada.hours_chegada=0;
+    parque[p][l][c].entrada.minutes_chegada=0;
+    parque[p][l][c].entrada.secounds_chegada=0;
+    parque[p][l][c].saida.year_saida=0;
+    parque[p][l][c].saida.month_saida=0;
+    parque[p][l][c].saida.day_saida=0;
+    parque[p][l][c].saida.hours_saida=0;
+    parque[p][l][c].saida.minutes_saida=0;
+    parque[p][l][c].saida.secounds_saida=0;
+    parque[p][l][c].estado=0;
+    parque[p][l][c].veiculo.pagamento=0;
+    counter_caravanas+=1;
+
+
+    }else{
+    strcpy(parque[p][l][c].veiculo.matricula,"");
+    parque[p][l][c].tipo=1;
+    parque[p][l][c].veiculo.n_lavagens=0;
+    parque[p][l][c].entrada.year_chegada=0;
+    parque[p][l][c].entrada.month_chegada=0;
+    parque[p][l][c].entrada.day_chegada=0;
+    parque[p][l][c].entrada.hours_chegada=0;
+    parque[p][l][c].entrada.minutes_chegada=0;
+    parque[p][l][c].entrada.secounds_chegada=0;
+    parque[p][l][c].saida.year_saida=0;
+    parque[p][l][c].saida.month_saida=0;
+    parque[p][l][c].saida.day_saida=0;
+    parque[p][l][c].saida.hours_saida=0;
+    parque[p][l][c].saida.minutes_saida=0;
+    parque[p][l][c].saida.secounds_saida=0;
+    parque[p][l][c].estado=0;
+    parque[p][l][c].veiculo.pagamento=0;
+    }
     } 
     }
 }

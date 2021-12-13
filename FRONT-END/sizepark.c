@@ -38,12 +38,12 @@ wc.lpfnWndProc   = WndProc;
 wc.cbClsExtra    = 0;
 wc.cbWndExtra    = 0;
 wc.hInstance     = hInstance;
-wc.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
+wc.hIcon         = NULL;
 wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
 wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
 wc.lpszMenuName  = NULL;
 wc.lpszClassName = TEXT("sizepark");
-wc.hIconSm       = LoadIcon(NULL, IDI_APPLICATION);
+wc.hIconSm       = NULL;
 RegisterClassEx(&wc);
 //CRIAR A WINDOW
 HWND hwnd=CreateWindowEx(WS_EX_CLIENTEDGE,TEXT("sizepark"),TEXT("KARGA"), WS_VISIBLE | WS_OVERLAPPEDWINDOW,CW_USEDEFAULT, CW_USEDEFAULT, 370, 350, NULL, NULL, hInstance, NULL);
@@ -86,7 +86,24 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     //MSGS
 switch(msg)
 {
+
+        
 case WM_CREATE:
+//ICON
+{
+		
+			HICON hIcon, hIconSm;
+			hIcon = (HICON)LoadImage(NULL,"../Cstart/FRONT-END/icon.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE);
+			if(hIcon)
+			{
+				SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+			}
+			else
+			{
+				MessageBox(hwnd, "Could not load large icon! Is it in the current working directory?", "Error", MB_OK | MB_ICONERROR);
+			}
+
+		}
 MessageBox(hwnd,TEXT("AVISO: defs e bus/camiao , se forem criados serao criados no piso zero.\nCaravanas se forem criadas serao no piso um."),"KARGA", 6);
 MessageBox(hwnd,TEXT("AVISO: Existem campos nao obrigatorios que em caso de nao serem preenchidos ou preenchidos indevidamente irao inicializar como zero devido a sua natureza opcional(deficientes,bus,caravanas,helicoptero)"),"KARGA", 6);
 //INPUT FIELDS
@@ -203,6 +220,10 @@ if(piso_int==0|linha_int==0|coluna_int==0|piso_int<0|linha_int<0|coluna_int<0){
 }else if(defs_int>(coluna_int)*(linha_int)||bus_int>(coluna_int)*(linha_int)||bus_int+defs_int>(coluna_int)*(linha_int)||caravana_int>(linha_int)*(coluna_int)){
     
 MessageBox(hwnd,"defs,defs+bus/camiao,bus/camiao,caravana, nao podem ser maiores que o numero de lugares por piso!!!","KARGA", 6);
+}else if(caravana_int>0&&piso_int<2){
+ 
+ MessageBox(hwnd,"So podemos ter caravanas com um minimo de 2 pisos!","KARGA", 6);
+    
 }else{
 //ARMAZENAR VALORES NO ARRAY QUE VAI RETORNAR DEPOIS DA FUNCAO SER EXECUTADA PARA O MAIN
 result.piso=piso_int;
