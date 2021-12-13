@@ -121,7 +121,7 @@ float Pagamento(int p , int l ,int c,parking parque[][30][30]){
     total = (ano * 8640) + (mes * 744) + (dia * 24) + horas + (min / 60);
     
     //VERIFICAR O TIPO DE VIATURA PARA CALCULAR O PREÇO 
-    switch (parque[p][l][c].veiculo.tipo_de_veiculo){
+    switch (parque[p][l][c].tipo){
     //CASO SEJA UM CARRO DE TIPO 0 - DEFECIENTES
     case 0: 
         pagamento = 2.50;
