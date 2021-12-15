@@ -290,6 +290,21 @@ if(cursor_combo==-1){
 }
 if(verifymatric(matricula)==0){
 MessageBox(hwnd,"Introduza uma matricula valida","KARGA", 6);
+}
+if(cursor_combo == 1 && warehouse.point[piso_ocu][linha_ocu][coluna_ocu].veiculo.tipo_de_veiculo != 1){
+   MessageBox(hwnd,"O tipo Carro so pode estacionar nos lugares do tipo Carro, Caravana, Camiao", "KARGA", 6);       
+}
+else if(cursor_combo == 3 && warehouse.point[piso_ocu][linha_ocu][coluna_ocu].veiculo.tipo_de_veiculo != 3){
+   MessageBox(hwnd,"O tipo Camiao so pode estacionar nos lugares tipo Camiao", "KARGA", 6);
+}
+else if(cursor_combo == 2 && warehouse.point[piso_ocu][linha_ocu][coluna_ocu].veiculo.tipo_de_veiculo != 2){
+   MessageBox(hwnd,"O tipo Caravana so pode estacionar nos lugares do tipo Caravana", "KARGA", 6);       
+}
+else if(cursor_combo == 4 && warehouse.point[piso_ocu][linha_ocu][coluna_ocu].veiculo.tipo_de_veiculo != 4){
+   MessageBox(hwnd,"O tipo Helicoptero so pode estacionar nos lugares do tipo Helicoptero", "KARGA", 6);       
+}
+else if(cursor_combo == 0 && warehouse.point[piso_ocu][linha_ocu][coluna_ocu].veiculo.tipo_de_veiculo != 0){
+   MessageBox(hwnd,"O tipo Deficientes so pode estacionar nos lugares tipo Deficientes", "KARGA", 6);
 }else{
 //ESTACIONAR
 Estacionar(piso_ocu,linha_ocu,coluna_ocu,matricula,cursor_combo,warehouse.point);
