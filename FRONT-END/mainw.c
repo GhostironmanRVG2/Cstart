@@ -290,9 +290,20 @@ if(cursor_combo==-1){
 }
 if(verifymatric(matricula)==0){
 MessageBox(hwnd,"Introduza uma matricula valida","KARGA", 6);
-}
 //VERIFICAR SE A MATRICULA DO VEICULO JÁ ESTÁ ESTACIONADA, VERIFICAR POR VALORES DUPLICADOS
-if()
+}
+        for (int i; i<piso; i++){
+                for (int ii; ii<linha; ii++){
+                        for (int iii; iii<coluna; iii++){
+                                if (warehouse.point[i][ii][iii].estado == 1){
+                                        if (strcmp(matricula, warehouse.point[i][ii][iii].veiculo.matricula) == 0){
+                                                MessageBox(hwnd,"O veículo com essa matricula, já se encontra estacionado", "KARGA", 6); 
+                                        }
+                                }
+                        }
+                }
+        }
+
 
 //VERIFICAR SE O TIPO DO VEICULO CORRESPONDE AO TIPO DE LUGAR, CASO NÃO ENVIA UMA MENSAGEM A AVISAR
 //SE O VEICULO FOR DO TIPO CARRO APENAS PODE ESTACIONAR NO TIPO DE LUGAR CARRO, CARAVANA E CAMIAO
