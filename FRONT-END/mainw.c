@@ -291,30 +291,33 @@ if(cursor_combo==-1){
 if(verifymatric(matricula)==0){
 MessageBox(hwnd,"Introduza uma matricula valida","KARGA", 6);
 }
+//VERIFICAR SE A MATRICULA DO VEICULO JÁ ESTÁ ESTACIONADA, VERIFICAR POR VALORES DUPLICADOS
+if()
+
+//VERIFICAR SE O TIPO DO VEICULO CORRESPONDE AO TIPO DE LUGAR, CASO NÃO ENVIA UMA MENSAGEM A AVISAR
+//SE O VEICULO FOR DO TIPO CARRO APENAS PODE ESTACIONAR NO TIPO DE LUGAR CARRO, CARAVANA E CAMIAO
 if(cursor_combo == 1 && warehouse.point[piso_ocu][linha_ocu][coluna_ocu].tipo != 1 && warehouse.point[piso_ocu][linha_ocu][coluna_ocu].tipo != 2 && warehouse.point[piso_ocu][linha_ocu][coluna_ocu].tipo != 3){
-  
-   printf("%d", warehouse.point[piso_ocu][linha_ocu][coluna_ocu].tipo);
-   printf("%d", cursor_combo);
+   //ENVIO DA MENSAGEM DE AVISO
    MessageBox(hwnd,"O tipo Carro so pode estacionar nos lugares do tipo Carro, Caravana, Camiao", "KARGA", 6);       
 }
+//SE O VEICULO FOR DO TIPO CAMIAO APENAS PODE ESTACIONAR NO TIPO DE LUGAR CAMIAO
 else if(cursor_combo == 3 && warehouse.point[piso_ocu][linha_ocu][coluna_ocu].tipo != 3){
-        printf("%d", warehouse.point[piso_ocu][linha_ocu][coluna_ocu].tipo);
-   printf("%d", cursor_combo);
+   //ENVIO DA MENSAGEM DE AVISO
    MessageBox(hwnd,"O tipo Camiao so pode estacionar nos lugares tipo Camiao", "KARGA", 6);
 }
+//SE O VEICULO FOR DO TIPO CARAVANA APENAS PODE ESTACIONAR NO TIPO DE LUGAR CARAVANA
 else if(cursor_combo == 2 && warehouse.point[piso_ocu][linha_ocu][coluna_ocu].tipo != 2){
-        printf("%d", warehouse.point[piso_ocu][linha_ocu][coluna_ocu].tipo);
-   printf("%d", cursor_combo);
+   //ENVIO DA MENSAGEM DE AVISO
    MessageBox(hwnd,"O tipo Caravana so pode estacionar nos lugares do tipo Caravana", "KARGA", 6);       
 }
+//SE O VEICULO FOR DO TIPO HELICOPTERO APENAS PODE ESTACIONAR NO TIPO DE LUGAR HELICOPTERO
 else if(cursor_combo == 4 && warehouse.point[piso_ocu][linha_ocu][coluna_ocu].tipo != 4){
-        printf("%d", warehouse.point[piso_ocu][linha_ocu][coluna_ocu].tipo);
-   printf("%d", cursor_combo);
+   //ENVIO DA MENSAGEM DE AVISO
    MessageBox(hwnd,"O tipo Helicoptero so pode estacionar nos lugares do tipo Helicoptero", "KARGA", 6);       
 }
+//SE O VEICULO FOR DO TIPO DEFICIENTES APENAS PODE ESTACIONAR NO TIPO DE LUGAR DEFICIENTES
 else if(cursor_combo == 0 && warehouse.point[piso_ocu][linha_ocu][coluna_ocu].tipo != 0){
-        printf("%d", warehouse.point[piso_ocu][linha_ocu][coluna_ocu].tipo);
-   printf("%d", cursor_combo);
+   //ENVIO DA MENSAGEM DE AVISO
    MessageBox(hwnd,"O tipo Deficientes so pode estacionar nos lugares tipo Deficientes", "KARGA", 6);
 }else{
 //ESTACIONAR
