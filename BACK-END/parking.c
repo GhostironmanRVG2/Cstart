@@ -287,7 +287,23 @@ int Find_car(char m[], parking parque [][30][30]){
     return 0;
 }
 
+//FUNÇAO GANHO TOTAL
+float ganho(parking parque [][linha][coluna], parking historico[]){
+    int p, l, c, count;
+    //VERIFICAMOS TODOS OS PISOS
+ for (p; p <= p; p++){
+        //VERIFICAMOS TODAS AS LINHAS
+        for (l; l <=linha; l++){
+            //VERIFICAMOS TODAS AS COLUNAS
+            for (c; c <=coluna; c++){
+                 //RETURNAMOS O PISO-LINHA-COLUNA
+               count = count + historico->pagamento;
 
+            }
+        }
+    }
+    return count;
+}
 
 //FUNCAO DE INICIALIZAR
 void inicializar(int defs_number,int carv_number,int bus_number,int helicopter_number,parking parque[][30][30]){
